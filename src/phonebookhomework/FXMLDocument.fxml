@@ -8,7 +8,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="336.0" prefWidth="448.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phonebookhomework.FXMLDocumentController">
    <children>
       <Label layoutX="8.0" layoutY="6.0" text="Enter a name and a phone number below" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
@@ -23,10 +22,16 @@
               <MenuItem mnemonicParsing="false" onAction="#AddPairA" text="Add Pair" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Import">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#ImportFileA" text="Import From File" />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Delete">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#DeleteLastA" text="Delete Last" />
                   <MenuItem mnemonicParsing="false" onAction="#DeleteNameA" text="Delete By Name" />
+                  <MenuItem mnemonicParsing="false" onAction="#DeleteAll" text="Delete All" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Print">
@@ -40,5 +45,7 @@
       <TextArea fx:id="result" layoutX="10.0" layoutY="122.0" prefHeight="143.0" prefWidth="413.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="160.0" />
       <Label layoutX="409.0" layoutY="305.0" text="Vasil Stoychev" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
       <Label layoutX="10.0" layoutY="135.0" text="Result:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="135.0" />
+      <TextField fx:id="countField" editable="false" layoutX="361.0" layoutY="100.0" prefHeight="25.0" prefWidth="76.0" text="0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
+      <Label layoutX="303.0" layoutY="104.0" text="Contacts:" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="104.0" />
    </children>
 </AnchorPane>

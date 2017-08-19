@@ -28,7 +28,7 @@ public class PhoneBook {
     this.phone = phone;
   }
   
-  private long PhoneParse(String phone){
+  private static long PhoneParse(String phone){
     long item;
     
     try{
@@ -39,7 +39,7 @@ public class PhoneBook {
     }   
   }
   
-  private boolean CheckDigits(String first, String second, String third){
+  private static boolean CheckDigits(String first, String second, String third){
     if (Integer.parseInt(first) >= 87 && Integer.parseInt(first) <= 89){
       if (Integer.parseInt(second) >= 2 && Integer.parseInt(second) <= 9){
         for (int i = 0; i < third.length(); i++){
@@ -56,7 +56,7 @@ public class PhoneBook {
     }
   }
   
-  public boolean PhoneValidity(String phone){
+  public static boolean PhoneValidity(String phone){
     int len = phone.length();
     String first;
     String second;
