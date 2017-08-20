@@ -10,7 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import static phonebookhomework.PhoneBook.PhoneValidity;
+import static phonebookhomework.Contact.PhoneValidity;
 
 public class FXMLDocumentController implements Initializable {
   
@@ -22,15 +22,15 @@ public class FXMLDocumentController implements Initializable {
   private TextField countField;  
   @FXML
   private TextArea result;
+  @FXML
+  private TextField pathField;
   
-  private LinkedList<PhoneBook> phoneBook;
-  private String[] item;
-  private int count;
+  private PhoneBook phoneBook;
+  private String[] person;
 
   public FXMLDocumentController() {
-    this.phoneBook = new LinkedList();
-    this.item = new String[2];
-    count = 0;
+    this.phoneBook = new PhoneBook();
+    this.person = new String[2];
   }
   
   
@@ -49,55 +49,93 @@ public class FXMLDocumentController implements Initializable {
   
   @FXML
   private void AddPairA(ActionEvent event) {
-    item[0] = nameField.getText().trim();
-    item[1] = phoneField.getText().trim();
-    if (PhoneValidity(item[1])){ 
-      PrintAction("Added to", " PhoneBook: \n", item[0], item[1]);    
+    person[0] = nameField.getText().trim();
+    person[1] = phoneField.getText().trim();
+    
+    if (PhoneValidity(person[1])){ 
+      phoneBook.AddPair(person[0], person[1]);
+      PrintAction("Added to", " PhoneBook: \n", person[0], person[1]);    
     }else{
       result.setText("Invalid Phone Number!\nPlease correct it, then try again.");
       return;
     }
-    phoneBook.add(0, new PhoneBook(item[0], item[1]));
-    SetCountField(++count);
+
+    SetCountField(phoneBook.getCounter());
     nameField.clear();
     phoneField.clear();
   }
   
   @FXML
   private void ImportFileA(ActionEvent event) {
+    int currCnt = phoneBook.getCounter();
+    phoneBook.ImportFromFile(pathField.getText());
+    if (phoneBook.getCounter() > currCnt){
+      SetCountField(phoneBook.getCounter());
+      result.setText("Added.");      
+    }else{
+      result.setText("Nothing added.");  
+    }
+
   }
 
   @FXML
   private void DeleteLastA(ActionEvent event) {
-    if (!phoneBook.isEmpty()){
+    if (phoneBook.getCounter() > 0){
       PrintAction("Removing", " current last item: \n", 
-              phoneBook.get(0).getName(), phoneBook.get(0).getPhone());
-      SetCountField(--count);
-      phoneBook.remove(0);
+              phoneBook.getPhoneBook().get(0).getName(), 
+              phoneBook.getPhoneBook().get(0).getPhone());
+      phoneBook.DeleteAt(0);
+      SetCountField(phoneBook.getCounter());     
     }else{
-      result.setText("There are no items to remove.");
+      result.setText("There are no contacts to remove.");
     }
   }
 
   @FXML
   private void DeleteNameA(ActionEvent event) {
-    
+    if (phoneBook.getCounter() > 0){ 
+      int currCnt = phoneBook.getCounter();
+      phoneBook.DeleteByName(nameField.getText());
+      if (currCnt > phoneBook.getCounter()){
+        result.setText("Done.");
+        SetCountField(phoneBook.getCounter());
+      }else{
+        result.setText("Name not found.");
+      }
+    }else{
+      result.setText("There are no contacts to remove.");
+    }
   }
   
   @FXML
   private void DeleteAll(ActionEvent event) {
-    if (!phoneBook.isEmpty()){
-      phoneBook.removeAll(phoneBook);
-      SetCountField(0);
+    if (phoneBook.getCounter() > 0){
+      phoneBook.DeleteAll();
+      SetCountField(phoneBook.getCounter());
+      result.setText("All contacts removed.");
+    }else{
+      result.setText("There are no contacts to remove.");
     }
   }
 
   @FXML
   private void PrintLastA(ActionEvent event) {
+    if (phoneBook.getCounter() > 0){
+      PrintAction("Last contact added: ", "\n", 
+              phoneBook.ReturnContact(0).getName(),
+              phoneBook.ReturnContact(0).getPhone());
+    }else{
+      result.setText("There are no contacts to print.");
+    }
   }
 
   @FXML
   private void PrintAllA(ActionEvent event) {
+    if (phoneBook.getCounter() > 0){
+      result.setText(phoneBook.ReturnAllContacts());
+    }else{
+      result.setText("There are no contacts to print.");
+    } 
   }
 
 

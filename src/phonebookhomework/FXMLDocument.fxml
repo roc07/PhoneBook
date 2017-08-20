@@ -19,7 +19,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="Add">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#AddPairA" text="Add Pair" />
+              <MenuItem mnemonicParsing="false" onAction="#AddPairA" text="Add Contact" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Import">
@@ -47,5 +47,7 @@
       <Label layoutX="10.0" layoutY="135.0" text="Result:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="135.0" />
       <TextField fx:id="countField" editable="false" layoutX="361.0" layoutY="100.0" prefHeight="25.0" prefWidth="76.0" text="0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
       <Label layoutX="303.0" layoutY="104.0" text="Contacts:" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="104.0" />
+      <TextField fx:id="pathField" layoutX="233.0" layoutY="57.0" prefHeight="25.0" prefWidth="204.0" text="C:\Users\john\Desktop\java exercise\PhoneBookHomework\phones.txt" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="57.0" />
+      <Label layoutX="302.0" layoutY="30.0" text="Import Path:" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="30.0" />
    </children>
 </AnchorPane>

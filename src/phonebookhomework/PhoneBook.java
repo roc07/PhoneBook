@@ -1,106 +1,109 @@
 package phonebookhomework;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.LinkedList;
+import static phonebookhomework.Contact.PhoneValidity;
+
 public class PhoneBook {
-  private String name;
-  private String phone; 
-  
+  private LinkedList<Contact> phoneBook; 
+  private Contact defaultCont;
+  private int counter;
+  private BufferedReader item;
+  private FileReader file;
+
   public PhoneBook() {
+    this.phoneBook = new LinkedList<Contact>();
+    defaultCont = new Contact("", "");
+    counter = 0;
+    item = null;
+    file = null;
+  }
+
+  public int getCounter() {
+    return counter;
+  }
+
+  public Contact getDefualt() {
+    return defaultCont;
   }
   
-  public PhoneBook(String name, String phone) {
-    this.setName(name);
-    this.setPhone(phone);
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
+  public LinkedList<Contact> getPhoneBook() {
+    return phoneBook;
+  } 
   
-  private static long PhoneParse(String phone){
-    long item;
-    
-    try{
-      item = Long.parseLong(phone);
-      return item;
-    }catch(NumberFormatException e){
-      return 0l;
-    }   
-  }
-  
-  private static boolean CheckDigits(String first, String second, String third){
-    if (Integer.parseInt(first) >= 87 && Integer.parseInt(first) <= 89){
-      if (Integer.parseInt(second) >= 2 && Integer.parseInt(second) <= 9){
-        for (int i = 0; i < third.length(); i++){
-          if (third.charAt(i) < '0' && third.charAt(i) > '9'){
-            return false;
-          }
-        }
-        return true;
-      }else{
-        return false;
-      }
+  public boolean FindContact(String name, int i){
+    if (phoneBook.get(i).getName().equals(name)){
+      System.out.println(phoneBook.get(i).getName());
+      return true;
     }else{
       return false;
     }
   }
   
-  public static boolean PhoneValidity(String phone){
-    int len = phone.length();
-    String first;
-    String second;
-    String third;
-    
-    if (PhoneParse(phone) == 0l){
-      return false;
+  public PhoneBook AddPair(String name, String phone) {
+    phoneBook.add(0, new Contact(name, phone));    
+    counter++;   
+    return this;
+  }
+  
+  public PhoneBook DeleteAt(int i){
+    phoneBook.remove(i);
+    System.out.println("removing " + i);
+    counter--;
+    return this;
+  }
+  
+  public PhoneBook DeleteByName(String name){
+    for (int i = 0; i < counter; i++){
+      if (FindContact(name, i)){
+        DeleteAt(i);
+      }
     }
-    
-    switch (len) {
-      case 10:
-        if (phone.substring(0,1).equals("0")){
-          first = phone.substring(1,3);
-          second = phone.substring(3,4);
-          third = phone.substring(4);
-          
-          return CheckDigits(first, second, third);
-        }else{
-          return false;
-        }
-      case 13:
-        if (phone.substring(0,4).equals("+359")){
-          first = phone.substring(4,6);
-          second = phone.substring(6,7);
-          third = phone.substring(7);
-          
-          return CheckDigits(first, second, third);
-        }else{
-          return false;
-        }
-      case 14:
-        if (phone.substring(0,5).equals("00359")){
-          first = phone.substring(5,7);
-          second = phone.substring(7,8);
-          third = phone.substring(8);
-          
-          return CheckDigits(first, second, third);
-        }else{
-          return false;
-        }
-      default:
-        return false;
+    return this;
+  }
+  
+  public PhoneBook DeleteAll(){
+    phoneBook.removeAll(phoneBook);
+    counter = 0;
+    return this;
+  }
+
+  public Contact ReturnContact(int i){
+    return phoneBook.get(i);
+  }
+  
+  public String ReturnAllContacts(){
+    StringBuilder all = new StringBuilder();
+    all.append("Printing all contacts: ");
+    all.append("\n");
+    for (int i = 0; i < counter; i++){
+      all.append("Name: ").append(phoneBook.get(i).getName());
+      all.append("\n");
+      all.append("Phone: ").append(phoneBook.get(i).getPhone());
+      all.append("\n");      
     }
+    return all.toString();
+  }
+  
+  public PhoneBook ImportFromFile(String path){
+    try{
+      file = new FileReader(path);
+      item = new BufferedReader(file);
+      String sCurrentLine;
+      
+	while ((sCurrentLine = item.readLine()) != null) {
+        String[] split = sCurrentLine.split(" ");
+          if (split.length == 2){    
+            if (PhoneValidity(split[1])){ 
+              AddPair(split[0], split[1]);
+              System.out.println(counter);
+            }            
+          }
+	}   
+    }catch(IOException e){
+    }  
+    return this;    
   }
 }
-
-
