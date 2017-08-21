@@ -1,12 +1,13 @@
 package phonebookhomework;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import static phonebookhomework.Contact.PhoneValidity;
 
-public class PhoneBook {
+public class PhoneBook extends IOException{
   private LinkedList<Contact> phoneBook; 
   private Contact defaultCont;
   private int counter;
@@ -35,7 +36,6 @@ public class PhoneBook {
   
   public boolean FindContact(String name, int i){
     if (phoneBook.get(i).getName().equals(name)){
-      System.out.println(phoneBook.get(i).getName());
       return true;
     }else{
       return false;
@@ -50,7 +50,6 @@ public class PhoneBook {
   
   public PhoneBook DeleteAt(int i){
     phoneBook.remove(i);
-    System.out.println("removing " + i);
     counter--;
     return this;
   }
@@ -87,7 +86,7 @@ public class PhoneBook {
     return all.toString();
   }
   
-  public PhoneBook ImportFromFile(String path){
+  public PhoneBook ImportFromFile(String path) throws IOException{
     try{
       file = new FileReader(path);
       item = new BufferedReader(file);
@@ -98,12 +97,17 @@ public class PhoneBook {
           if (split.length == 2){    
             if (PhoneValidity(split[1])){ 
               AddPair(split[0], split[1]);
-              System.out.println(counter);
             }            
           }
 	}   
-    }catch(IOException e){
-    }  
+    }catch (IOException e){
+      
+    }
+    finally{
+      if (file != null){
+        file.close();
+      }
+    } 
     return this;    
   }
 }

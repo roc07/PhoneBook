@@ -1,5 +1,6 @@
 package phonebookhomework;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -68,7 +69,11 @@ public class FXMLDocumentController implements Initializable {
   @FXML
   private void ImportFileA(ActionEvent event) {
     int currCnt = phoneBook.getCounter();
+    try {
     phoneBook.ImportFromFile(pathField.getText());
+    }catch (IOException e){
+      
+    }
     if (phoneBook.getCounter() > currCnt){
       SetCountField(phoneBook.getCounter());
       result.setText("Added.");      
